@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CommunityRemedyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ApplicationRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Community">
+    <Key>
+      <PropertyRef Name="CommunityID" />
+    </Key>
+    <Property Name="CommunityID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="GovtRegistrationId" Type="varchar" MaxLength="100" />
+    <Property Name="Address" Type="varchar" MaxLength="500" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="50" />
+    <Property Name="Country" Type="varchar" MaxLength="50" />
+    <Property Name="Zip" Type="varchar" MaxLength="10" />
+    <Property Name="PhoneContact" Type="varchar" MaxLength="25" />
+    <Property Name="MobileContact" Type="varchar" MaxLength="25" />
+    <Property Name="EmailId" Type="varchar" MaxLength="50" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MaintenanceService">
+    <Key>
+      <PropertyRef Name="ServiceId" />
+    </Key>
+    <Property Name="ServiceId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ServiceName" Type="varchar" MaxLength="50" />
+    <Property Name="Details" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Resident">
+    <Key>
+      <PropertyRef Name="ResidentId" />
+    </Key>
+    <Property Name="ResidentId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="DOB" Type="varchar" MaxLength="25" />
+    <Property Name="CommunityId" Type="bigint" Nullable="false" />
+    <Property Name="ApartmentNumber" Type="varchar" MaxLength="10" />
+    <Property Name="MobileContact" Type="varchar" MaxLength="25" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ServiceProvider">
+    <Key>
+      <PropertyRef Name="ProviderId" />
+    </Key>
+    <Property Name="ProviderId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProviderName" Type="varchar" MaxLength="100" />
+    <Property Name="Address" Type="varchar" MaxLength="200" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="50" />
+    <Property Name="Country" Type="varchar" MaxLength="50" />
+    <Property Name="Zip" Type="varchar" MaxLength="50" />
+    <Property Name="ContactNumber" Type="varchar" MaxLength="50" />
+    <Property Name="GSTN" Type="varchar" MaxLength="50" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Website" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="ServiceProviderMaintenanceCommunity">
+    <Key>
+      <PropertyRef Name="RelationId" />
+    </Key>
+    <Property Name="ProviderId" Type="bigint" Nullable="false" />
+    <Property Name="ServiceId" Type="bigint" Nullable="false" />
+    <Property Name="CommunityId" Type="bigint" Nullable="false" />
+    <Property Name="RelationId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ServiceRequest">
+    <Key>
+      <PropertyRef Name="RequestId" />
+    </Key>
+    <Property Name="RequestId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ServiceId" Type="bigint" />
+    <Property Name="CreatedUserId" Type="nvarchar" MaxLength="128" />
+    <Property Name="CommunityId" Type="bigint" />
+    <Property Name="ProviderId" Type="bigint" />
+    <Property Name="CreatedTime" Type="datetime" />
+    <Property Name="LastUpdatedTime" Type="datetime" />
+    <Property Name="Title" Type="varchar" MaxLength="100" />
+    <Property Name="Description" Type="varchar" MaxLength="100" />
+    <Property Name="AttachmentPath" Type="varchar" MaxLength="500" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdatedByUserId" Type="nvarchar" MaxLength="128" />
+    <Property Name="ResidentId" Type="bigint" />
+  </EntityType>
+  <Association Name="FK_dbo_Resident_dbo_Community_CommunityId">
+    <End Role="Community" Type="Self.Community" Multiplicity="1" />
+    <End Role="Resident" Type="Self.Resident" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Community">
+        <PropertyRef Name="CommunityID" />
+      </Principal>
+      <Dependent Role="Resident">
+        <PropertyRef Name="CommunityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ServiceProviderMaintenanceCommunity_dbo_Community_CommunityId">
+    <End Role="Community" Type="Self.Community" Multiplicity="1" />
+    <End Role="ServiceProviderMaintenanceCommunity" Type="Self.ServiceProviderMaintenanceCommunity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Community">
+        <PropertyRef Name="CommunityID" />
+      </Principal>
+      <Dependent Role="ServiceProviderMaintenanceCommunity">
+        <PropertyRef Name="CommunityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ServiceProviderMaintenanceCommunity_dbo_MaintenanceService_ServiceId">
+    <End Role="MaintenanceService" Type="Self.MaintenanceService" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ServiceProviderMaintenanceCommunity" Type="Self.ServiceProviderMaintenanceCommunity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MaintenanceService">
+        <PropertyRef Name="ServiceId" />
+      </Principal>
+      <Dependent Role="ServiceProviderMaintenanceCommunity">
+        <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ServiceProviderMaintenanceCommunity_dbo_ServiceProvider_ProviderId">
+    <End Role="ServiceProvider" Type="Self.ServiceProvider" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ServiceProviderMaintenanceCommunity" Type="Self.ServiceProviderMaintenanceCommunity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceProvider">
+        <PropertyRef Name="ProviderId" />
+      </Principal>
+      <Dependent Role="ServiceProviderMaintenanceCommunity">
+        <PropertyRef Name="ProviderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ServiceRequest_dbo_Community_CommunityId">
+    <End Role="Community" Type="Self.Community" Multiplicity="0..1" />
+    <End Role="ServiceRequest" Type="Self.ServiceRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Community">
+        <PropertyRef Name="CommunityID" />
+      </Principal>
+      <Dependent Role="ServiceRequest">
+        <PropertyRef Name="CommunityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ServiceRequest_dbo_MaintenanceService_UserId">
+    <End Role="MaintenanceService" Type="Self.MaintenanceService" Multiplicity="0..1" />
+    <End Role="ServiceRequest" Type="Self.ServiceRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MaintenanceService">
+        <PropertyRef Name="ServiceId" />
+      </Principal>
+      <Dependent Role="ServiceRequest">
+        <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ServiceRequest_dbo_Resident_ResidentId">
+    <End Role="Resident" Type="Self.Resident" Multiplicity="0..1" />
+    <End Role="ServiceRequest" Type="Self.ServiceRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Resident">
+        <PropertyRef Name="ResidentId" />
+      </Principal>
+      <Dependent Role="ServiceRequest">
+        <PropertyRef Name="ResidentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ServiceRequest_dbo_ServiceProvider_ProviderId">
+    <End Role="ServiceProvider" Type="Self.ServiceProvider" Multiplicity="0..1" />
+    <End Role="ServiceRequest" Type="Self.ServiceRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceProvider">
+        <PropertyRef Name="ProviderId" />
+      </Principal>
+      <Dependent Role="ServiceRequest">
+        <PropertyRef Name="ProviderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CommunityRemedyDBModelStoreContainer">
+    <EntitySet Name="ApplicationRole" EntityType="Self.ApplicationRole" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Community" EntityType="Self.Community" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MaintenanceService" EntityType="Self.MaintenanceService" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Resident" EntityType="Self.Resident" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ServiceProvider" EntityType="Self.ServiceProvider" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ServiceProviderMaintenanceCommunity" EntityType="Self.ServiceProviderMaintenanceCommunity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ServiceRequest" EntityType="Self.ServiceRequest" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_Resident_dbo_Community_CommunityId" Association="Self.FK_dbo_Resident_dbo_Community_CommunityId">
+      <End Role="Community" EntitySet="Community" />
+      <End Role="Resident" EntitySet="Resident" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ServiceProviderMaintenanceCommunity_dbo_Community_CommunityId" Association="Self.FK_dbo_ServiceProviderMaintenanceCommunity_dbo_Community_CommunityId">
+      <End Role="Community" EntitySet="Community" />
+      <End Role="ServiceProviderMaintenanceCommunity" EntitySet="ServiceProviderMaintenanceCommunity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ServiceProviderMaintenanceCommunity_dbo_MaintenanceService_ServiceId" Association="Self.FK_dbo_ServiceProviderMaintenanceCommunity_dbo_MaintenanceService_ServiceId">
+      <End Role="MaintenanceService" EntitySet="MaintenanceService" />
+      <End Role="ServiceProviderMaintenanceCommunity" EntitySet="ServiceProviderMaintenanceCommunity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ServiceProviderMaintenanceCommunity_dbo_ServiceProvider_ProviderId" Association="Self.FK_dbo_ServiceProviderMaintenanceCommunity_dbo_ServiceProvider_ProviderId">
+      <End Role="ServiceProvider" EntitySet="ServiceProvider" />
+      <End Role="ServiceProviderMaintenanceCommunity" EntitySet="ServiceProviderMaintenanceCommunity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ServiceRequest_dbo_Community_CommunityId" Association="Self.FK_dbo_ServiceRequest_dbo_Community_CommunityId">
+      <End Role="Community" EntitySet="Community" />
+      <End Role="ServiceRequest" EntitySet="ServiceRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ServiceRequest_dbo_MaintenanceService_UserId" Association="Self.FK_dbo_ServiceRequest_dbo_MaintenanceService_UserId">
+      <End Role="MaintenanceService" EntitySet="MaintenanceService" />
+      <End Role="ServiceRequest" EntitySet="ServiceRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ServiceRequest_dbo_Resident_ResidentId" Association="Self.FK_dbo_ServiceRequest_dbo_Resident_ResidentId">
+      <End Role="Resident" EntitySet="Resident" />
+      <End Role="ServiceRequest" EntitySet="ServiceRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ServiceRequest_dbo_ServiceProvider_ProviderId" Association="Self.FK_dbo_ServiceRequest_dbo_ServiceProvider_ProviderId">
+      <End Role="ServiceProvider" EntitySet="ServiceProvider" />
+      <End Role="ServiceRequest" EntitySet="ServiceRequest" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c17e13c5427647c98508f503c6c7beb3" Name="Diagram1">
+        <EntityTypeShape EntityType="CommunityRemedyDBModel.ApplicationRole" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CommunityRemedyDBModel.Community" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="CommunityRemedyDBModel.Resident" Width="1.5" PointX="5.625" PointY="1.125" />
+        <AssociationConnector Association="CommunityRemedyDBModel.FK_dbo_Resident_dbo_Community_CommunityId" />
+        <EntityTypeShape EntityType="CommunityRemedyDBModel.MaintenanceService" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CommunityRemedyDBModel.ServiceProvider" Width="1.5" PointX="3.375" PointY="5.75" />
+        <EntityTypeShape EntityType="CommunityRemedyDBModel.ServiceProviderMaintenanceCommunity" Width="1.5" PointX="5.625" PointY="4.875" />
+        <AssociationConnector Association="CommunityRemedyDBModel.FK_dbo_ServiceProviderMaintenanceCommunity_dbo_Community_CommunityId" />
+        <AssociationConnector Association="CommunityRemedyDBModel.FK_dbo_ServiceProviderMaintenanceCommunity_dbo_MaintenanceService_ServiceId" />
+        <AssociationConnector Association="CommunityRemedyDBModel.FK_dbo_ServiceProviderMaintenanceCommunity_dbo_ServiceProvider_ProviderId" />
+        <EntityTypeShape EntityType="CommunityRemedyDBModel.ServiceRequest" Width="1.5" PointX="7.875" PointY="2.75" />
+        <AssociationConnector Association="CommunityRemedyDBModel.FK_dbo_ServiceRequest_dbo_Community_CommunityId" />
+        <AssociationConnector Association="CommunityRemedyDBModel.FK_dbo_ServiceRequest_dbo_MaintenanceService_UserId" />
+        <AssociationConnector Association="CommunityRemedyDBModel.FK_dbo_ServiceRequest_dbo_Resident_ResidentId" />
+        <AssociationConnector Association="CommunityRemedyDBModel.FK_dbo_ServiceRequest_dbo_ServiceProvider_ProviderId" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
